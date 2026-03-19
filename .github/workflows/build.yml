@@ -2,7 +2,6 @@ name: Build & Release
 
 on:
   push:
-    branches: [main]
     tags: ["v*"]
 
 permissions:
@@ -36,7 +35,6 @@ jobs:
           path: linkedin-twenty-crm.zip
 
       - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           files: linkedin-twenty-crm.zip
