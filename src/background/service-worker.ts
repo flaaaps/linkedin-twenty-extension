@@ -1,5 +1,3 @@
-console.log("[Twenty CRM] Service worker starting...");
-
 // Relay messages from content script to popup
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === "LINKEDIN_PROFILE_DATA" || message.type === "LINKEDIN_NO_PROFILE") {
@@ -34,5 +32,3 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
     // Tab may not exist
   }
 });
-
-console.log("[Twenty CRM] Service worker initialized");

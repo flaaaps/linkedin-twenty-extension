@@ -96,8 +96,6 @@ function extractProfileData(): LinkedInProfileData | null {
     if (m) headline = m[1].trim();
   }
 
-  console.log("[Twenty CRM Content] Extracted:", { fullName, firstName, lastName, headline, company, location, profileUrl });
-
   return { fullName, firstName, lastName, profileUrl, headline, company, location };
 }
 

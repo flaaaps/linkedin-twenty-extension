@@ -21,7 +21,6 @@ export class TwentyClient {
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseUrl}${path}`;
-    console.log("[Twenty API]", options.method ?? "GET", url);
     const res = await fetch(url, {
       ...options,
       headers: {
@@ -33,13 +32,10 @@ export class TwentyClient {
 
     if (!res.ok) {
       const body = await res.text();
-      console.error("[Twenty API] Error:", res.status, body);
       throw new Error(`API ${res.status}: ${body}`);
     }
 
-    const json = await res.json();
-    console.log("[Twenty API] Response:", JSON.stringify(json).slice(0, 500));
-    return json;
+    return res.json();
   }
 
   async searchPeople(query: string): Promise<Person[]> {
