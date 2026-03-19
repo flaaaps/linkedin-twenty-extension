@@ -3,7 +3,8 @@ import { useTwentyApi } from "./hooks/useTwentyApi";
 import { useLinkedInProfile } from "./hooks/useLinkedInProfile";
 import { getSettings } from "../utils/storage";
 import { SettingsView } from "./components/SettingsView";
-import { PersonSearch } from "./components/PersonSearch";
+import { PersonSearch, initialSearchState } from "./components/PersonSearch";
+import type { SearchState } from "./components/PersonSearch";
 import { PersonForm } from "./components/PersonForm";
 import { PersonDetail } from "./components/PersonDetail";
 import type { Person } from "../api/types";
@@ -25,6 +26,7 @@ export default function App() {
   const [linkedInMatch, setLinkedInMatch] = useState<Person | null>(null);
   const [linkedInStatus, setLinkedInStatus] = useState<"idle" | "searching" | "found" | "not_found">("idle");
   const lastSearchedUrl = useRef<string | null>(null);
+  const [searchState, setSearchState] = useState<SearchState>(initialSearchState);
 
   useEffect(() => {
     getSettings().then((s) => {
@@ -202,6 +204,8 @@ export default function App() {
         {/* Search section */}
         <PersonSearch
           client={client}
+          state={searchState}
+          onStateChange={setSearchState}
           onSelect={(person) => setView({ name: "detail", person })}
         />
       </div>

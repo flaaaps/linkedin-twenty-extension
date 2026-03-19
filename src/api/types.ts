@@ -94,6 +94,7 @@ export interface LinkedInProfileData {
   profileUrl: string;
   headline: string;
   location: string;
+  company: string;
 }
 
 export interface ExtensionSettings {

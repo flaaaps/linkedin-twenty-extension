@@ -1,31 +1,41 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import type { Person } from "../../api/types";
 import type { TwentyClient } from "../../api/twenty-client";
 
+export interface SearchState {
+  query: string;
+  results: Person[];
+  searching: boolean;
+  searched: boolean;
+}
+
+export const initialSearchState: SearchState = {
+  query: "",
+  results: [],
+  searching: false,
+  searched: false,
+};
+
 interface Props {
   client: TwentyClient;
+  state: SearchState;
+  onStateChange: (state: SearchState) => void;
   onSelect: (person: Person) => void;
 }
 
-export function PersonSearch({ client, onSelect }: Props) {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Person[]>([]);
-  const [searching, setSearching] = useState(false);
-  const [searched, setSearched] = useState(false);
+export function PersonSearch({ client, state, onStateChange, onSelect }: Props) {
+  const { query, results, searching, searched } = state;
 
   const handleSearch = useCallback(async () => {
     if (!query.trim()) return;
-    setSearching(true);
-    setSearched(false);
+    onStateChange({ ...state, searching: true, searched: false });
     try {
       const people = await client.searchPeople(query.trim());
-      setResults(people);
+      onStateChange({ ...state, results: people, searching: false, searched: true });
     } catch {
-      setResults([]);
+      onStateChange({ ...state, results: [], searching: false, searched: true });
     }
-    setSearching(false);
-    setSearched(true);
-  }, [query, client]);
+  }, [query, client, state, onStateChange]);
 
   return (
     <div className="p-3">
@@ -33,7 +43,7 @@ export function PersonSearch({ client, onSelect }: Props) {
         <input
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => onStateChange({ ...state, query: e.target.value })}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           placeholder="Search CRM by name..."
           className="flex-1 border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"

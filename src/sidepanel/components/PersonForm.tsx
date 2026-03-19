@@ -69,7 +69,7 @@ export function PersonForm({
   const [reminder, setReminder] = useState(
     (existingPerson?.[customFieldMap["Reminder"] ?? "reminder"] as string) ?? ""
   );
-  const [company, setCompany] = useState("");
+  const [company, setCompany] = useState(linkedInProfile?.company ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
