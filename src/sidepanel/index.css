@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-white text-gray-900 text-sm;
+  width: 100%;
+  min-width: 320px;
+  margin: 0;
+  padding: 0;
+}
